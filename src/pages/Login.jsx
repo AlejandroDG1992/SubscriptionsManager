@@ -2,6 +2,7 @@ import { useState } from "react";
 import { supabase } from "../DB/supabaseClient";
 import { Link } from "react-router";
 import "../App.css";
+import SignUp from './SignUp'
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -60,12 +61,7 @@ function Login() {
       <br />
       <p>
         Don't have an account?
-        <Link
-          to="/SignUp"
-          className="text-blue-500 font-semibold hover:underline"
-        >
-          Sign Up Now
-        </Link>
+        <Link to="/SignUp">¿No tienes cuenta? Regístrate</Link>
       </p>
     </div>
   );
