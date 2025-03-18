@@ -27,7 +27,6 @@ function App() {
     <>
  <GradientBackground />
     <div className='background'>
-   
       <Routes>
         <Route path="/" element = {<ManagementPage/>} />
         <Route path="/Login" element = {<Login/>} />

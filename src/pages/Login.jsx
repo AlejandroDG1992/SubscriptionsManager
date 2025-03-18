@@ -59,7 +59,7 @@ function Login() {
       </form>
       <br />
       <p>
-        Don't have an account? <div />
+        Don't have an account?
         <Link
           to="/SignUp"
           className="text-blue-500 font-semibold hover:underline"

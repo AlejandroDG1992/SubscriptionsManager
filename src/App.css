@@ -5,38 +5,27 @@
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.halo {
+  position: fixed; /* Siempre sobre la pantalla */
+  width: 80px; /* Halo mÃ¡s pequeÃ±o */
+  height: 80px; /* Halo mÃ¡s pequeÃ±o */
+  background: rgba(255, 0, 0, 0.1); /* Color inicial del halo con baja opacidad */
+  border-radius: 50%;
+  filter: blur(20px); /* Difuminado mÃ¡s sutil */
+  pointer-events: none; /* No bloquea interacciones */
+  transition: transform 0.2s ease-out, opacity 0.5s ease-in-out, background 0.3s ease-in-out;
+  transform: translate(-50%, -50%);
+  opacity: 0.8; /* Baja opacidad */
+  z-index: 9999; /* Asegura que estÃ© sobre todo */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+.background {
+  position:initial; /* Mantiene el layout intacto */
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 1s ease; /* TransiciÃ³n suave del fondo */
 }
