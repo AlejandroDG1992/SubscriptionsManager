@@ -5,13 +5,15 @@ import { supabase } from "../DB/supabaseClient";
 function SignUp () {
         const [email, setEmail] = useState("");
         const [password, setPassword] = useState("");
+        const [name, setName] = useState("");
         const [tryMessage, setTryMessage] = useState("");
         const handleSubmit = async (e) => {
             e.preventDefault()
     
             const { data, error } = await supabase.auth.signUp({
                 email: email,
-                password: password
+                password: password,
+                user_metadata: { name: name }
               });
               
               if (error) {
@@ -24,10 +26,18 @@ function SignUp () {
         }
     return(
         <div>
-        <h2>Sign Up</h2>
+        <h2>Subscription Manager</h2>
 
         <form onSubmit={handleSubmit}>
-            <input type="email"
+            <input required type="name"
+            name = "name"
+            id = ""
+            placeholder="Your name"
+            onChange={(e) => setName(e.target.value)}
+            ></input>
+            <br/>
+            <br/>
+            <input required  type="email"
             name= "email"
             id="" 
             placeholder="youremail@site.com"
@@ -35,7 +45,7 @@ function SignUp () {
             </input>
             <br/>
             <br/>
-            <input type="password"
+            <input required  type="password"
             name = "password"
             id = ""
             placeholder="password"
@@ -43,7 +53,6 @@ function SignUp () {
             ></input>
             <br/>
             <br/>
-
             {tryMessage && ( <p style={{color:"red", marginTop: "10px"}}> {tryMessage}</p> )}
 
             <button>
