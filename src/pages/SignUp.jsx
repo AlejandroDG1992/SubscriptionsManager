@@ -26,8 +26,6 @@ function SignUp () {
         }
     return(
         <div>
-        <h2>Subscription Manager</h2>
-
         <form onSubmit={handleSubmit}>
             <input required type="name"
             name = "name"

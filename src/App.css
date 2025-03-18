@@ -28,3 +28,46 @@
   justify-content: center;
   transition: background 1s ease; /* TransiciÃ³n suave del fondo */
 }
+
+.header {
+  width: 100%;
+  height: 150px; /* Ajusta la altura según prefieras */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-image {
+  width: 70%;
+  height: 50%;
+  object-fit:fill; /* Ajusta la imagen para que se vea bien */
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 1rem;
+  min-width: 400px;
+  border-radius: 10px 10px 0 0;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.styled-table thead tr {
+  text-align: left;
+  font-weight: bold;
+}
+
+.styled-table th, .styled-table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+}
+
+.styled-table tbody tr:hover {
+}

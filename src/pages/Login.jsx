@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "../DB/supabaseClient";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import "../App.css";
 import SignUp from './SignUp'
 
@@ -8,6 +8,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,10 +33,14 @@ function Login() {
     }
   };
 
+  // useEffect(() => {
+  //   if(supabase.auth.getUser()){
+  //     navigate("/")
+  //   }
+  // },[navigate]);
+
   return (
     <div>
-      <h2>Subscription Manager</h2>
-
       <form onSubmit={handleSubmit}>
         <input
           type="email"

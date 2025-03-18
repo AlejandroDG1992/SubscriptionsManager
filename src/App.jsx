@@ -2,11 +2,12 @@ import React, { useEffect } from 'react'
 import './App.css'
 import {Routes, Route, useNavigate, useLocation  } from 'react-router'
 import Login from './pages/Login'
-import ManagementPage from './pages/ManagementPage'
+import Home from './pages/Home'
 import NotFound from './pages/NotFound'
 import SignUp from './pages/SignUp'
 import {supabase} from './DB/supabaseClient'
 import GradientBackground from './components/GradientBackground'
+import headerImage from './assets/SubscriptionsManagerLogo.png'; // ✅ Importa la imagen correctamente
 
 
 function App() {
@@ -31,10 +32,13 @@ function App() {
 
   return (
     <>
- <GradientBackground />
+    <GradientBackground />
+    <header className="header">
+    <img src={headerImage} alt="Cabecera" className="header-image" />
+      </header>
     <div className='background'>
       <Routes>
-        <Route path="/UserPage" element = {<ManagementPage/>} />
+        <Route path="/" element = {<Home/>} />
         <Route path="/Login" element = {<Login/>} />
         <Route path="*" element = {<NotFound/>} />
         <Route path="/SignUp" element = {<SignUp/>} />
