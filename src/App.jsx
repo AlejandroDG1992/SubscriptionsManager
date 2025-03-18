@@ -14,21 +14,19 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
       if (!session) {
-        if (location.pathname !== "/login" && location.pathname !== "/sign-up") {
-          navigate("/login");
+        if (location.pathname !== "/SignUp") {
+          navigate("/Login");
         }
       } else {
         navigate("/");
       }
-  
-      setLoading(false);
+    });
+
+    return () => {
+      authListener.subscription.unsubscribe();
     };
-  
-    checkSession();
   }, [navigate, location.pathname]);
 
   return (
