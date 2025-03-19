@@ -1,0 +1,40 @@
+/* .add-subscription-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 400px;
+    height: 100%;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    z-index: 100;
+}
+
+.add-subscription-panel form {
+    width: 100%;
+}
+
+.add-subscription-panel input {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.add-subscription-panel button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: rgb(168, 44, 44);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.add-subscription-panel button:hover {
+    background-color: #565181;
+} */

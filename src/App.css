@@ -4,7 +4,7 @@
   text-align: center;
 }
 
-.halo {
+/* .halo {
   position: fixed; /* Siempre sobre la pantalla */
   width: 80px; /* Halo mÃ¡s pequeÃ±o */
   height: 80px; /* Halo mÃ¡s pequeÃ±o */
@@ -16,18 +16,18 @@
   transform: translate(-50%, -50%);
   opacity: 0.8; /* Baja opacidad */
   z-index: 9999; /* Asegura que estÃ© sobre todo */
-}
+}  */
 
 .background {
-  position:initial; /* Mantiene el layout intacto */
+  position:initial;
   width: 100%;
   height: 100%;
   background: black;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 1s ease; /* TransiciÃ³n suave del fondo */
-}
+  transition: background 1s ease;
+} */
 
 .header {
   width: 100%;
@@ -42,6 +42,37 @@
   height: 50%;
   object-fit:fill; /* Ajusta la imagen para que se vea bien */
 }
+
+.footer {
+  width: 100%;
+  padding: 0.8rem 1.5rem;
+  color: #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  font-family: "Inter", sans-serif;
+  font-size: 0.8rem;
+}
+
+.footer-text {
+  font-weight: 300;
+}
+
+.footer-logo img {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.2s ease-in-out;
+  opacity: 0.7; 
+}
+
+.footer-logo a:hover img {
+  transform: scale(1.4);
+  opacity: 1; 
+}
+
 
 .table-container {
   width: 100%;

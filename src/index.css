@@ -35,7 +35,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #002be7;
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -45,6 +45,31 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* Botón de logout en la esquina superior derecha */
+.logout-btn {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background-color: #d9534f; /* Rojo suave */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+  z-index: 900; /* Más bajo que el panel lateral */
+}
+
+.logout-btn:hover {
+  background-color: #c9302c;
+}
+
+
+a {
+  color: #02ffa1
 }
 
 @media (prefers-color-scheme: light) {

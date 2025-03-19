@@ -7,7 +7,8 @@ import NotFound from './pages/NotFound'
 import SignUp from './pages/SignUp'
 import {supabase} from './DB/supabaseClient'
 import GradientBackground from './components/GradientBackground'
-import headerImage from './assets/SubscriptionsManagerLogo.png'; // ✅ Importa la imagen correctamente
+import headerImage from './assets/SubscriptionsManagerLogo.png'; 
+import footerImage from './assets/LinkedinLogo.jpg';
 
 
 function App() {
@@ -31,10 +32,11 @@ function App() {
   }, [navigate, location.pathname]);
 
   return (
-    <>
-    <GradientBackground />
+    <div>
+    {/* <GradientBackground /> */}
     <header className="header">
-    <img src={headerImage} alt="Cabecera" className="header-image" />
+      
+    <img src={headerImage} alt="Header" className="header-image" />
       </header>
     <div className='background'>
       <Routes>
@@ -44,7 +46,15 @@ function App() {
         <Route path="/SignUp" element = {<SignUp/>} />
       </Routes>
     </div>
-    </>
+    <footer className="footer"> 
+  <div className="footer-logo">
+  <span className="footer-text">In development by Alejandro Delgado&ensp;</span>
+    <a href="https://www.linkedin.com/in/alejandro-delgado-931287ab/" target="_blank">
+    <img src={footerImage} alt="Footer" className='footer-image' />
+    </a>
+  </div>
+</footer>
+    </div>
   )
 }
 

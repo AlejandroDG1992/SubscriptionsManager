@@ -54,7 +54,7 @@ function SignUp () {
             {tryMessage && ( <p style={{color:"red", marginTop: "10px"}}> {tryMessage}</p> )}
 
             <button>
-                Registre
+                Join
             </button>                
         </form>
     </div>
