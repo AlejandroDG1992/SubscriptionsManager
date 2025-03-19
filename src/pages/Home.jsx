@@ -5,68 +5,71 @@ import { supabase } from "../DB/supabaseClient";
 import AddSubscription from "../components/AddSubscription";
 
 function Home() {
-    const navigate = useNavigate();
-    const [subscriptions, setSubscriptions] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const [subscriptions, setSubscriptions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
-    useEffect(() => {
-        const checkUser = async () => {
-            const { data: user } = await supabase.auth.getUser();
-            if (!user?.user) {
-                navigate("/Login");
-            } else {
-                fetchSubscriptions(user.user.id);
-            }
-        };
-
-        checkUser();
-    }, [navigate]);
-
-    const fetchSubscriptions = async (userId) => {
-        setLoading(true);
-        const { data, error } = await supabase
-            .from("subscriptions")
-            .select("*")
-            .eq("user_id", userId);
-
-        if (error) {
-            console.error("Error obteniendo suscripciones:", error.message);
-        } else {
-            setSubscriptions(data);
-        }
-        setLoading(false);
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data: user } = await supabase.auth.getUser();
+      if (!user?.user) {
+        navigate("/Login");
+      } else {
+        fetchSubscriptions(user.user.id);
+      }
     };
 
-    const toggleAddSubscriptionPanel = () => {
-        setIsOpen(!isOpen);
-    };
+    checkUser();
+  }, [navigate]);
 
-    return (
-        <div>
-            {loading ? (
-                <p>Cargando suscripciones...</p>
-            ) : (
-                <SubscriptionsList subscriptions={subscriptions} />
-            )}
-            <br />
-            <button  className="logout-btn" onClick={async () => await supabase.auth.signOut()}>
-                Logout
-            </button>
+  const fetchSubscriptions = async (userId) => {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from("subscriptions")
+      .select("*")
+      .eq("user_id", userId);
 
-            {/* Contenedor de los botones flotantes */}
-            <div className="floating-buttons">
-                <button
-                    className={`add-subscription-btn ${isOpen ? "open" : ""}`}
-                    onClick={toggleAddSubscriptionPanel}
-                >
-                    {isOpen ? "x" : "+"}
-                </button>
-            </div>
+    if (error) {
+      console.error("Error obteniendo suscripciones:", error.message);
+    } else {
+      setSubscriptions(data);
+    }
+    setLoading(false);
+  };
 
-            <AddSubscription isOpen={isOpen} toggle={toggleAddSubscriptionPanel} />
-        </div>
-    );
+  const toggleAddSubscriptionPanel = () => {
+    setIsOpen(!isOpen);
+  };
+
+  return (
+    <div>
+      {loading ? (
+        <p>Cargando suscripciones...</p>
+      ) : (
+        <SubscriptionsList subscriptions={subscriptions} />
+      )}
+      <br />
+      <button
+        className="logout-btn"
+        onClick={async () => await supabase.auth.signOut()}
+      >
+        Logout
+      </button>
+
+      {/* Contenedor de los botones flotantes */}
+      <div className="floating-buttons">
+        <button
+          className={`add-subscription-btn ${isOpen ? "open" : ""}`}
+          onClick={toggleAddSubscriptionPanel}
+        >
+          {isOpen ? "x" : "+"}
+        </button>
+      </div>
+
+      <AddSubscription isOpen={isOpen} toggle={toggleAddSubscriptionPanel} />
+    </div>
+  );
 }
 
 export default Home;
