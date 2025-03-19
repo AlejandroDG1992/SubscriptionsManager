@@ -31,13 +31,7 @@ function Login() {
       setErrorMessage("");
     }
   };
-
-  useEffect(() => {
-    if(supabase.auth.getUser()){
-      navigate("/")
-    }
-  },[navigate]);
-
+  
   return (
     <div>
       <form onSubmit={handleSubmit}>
