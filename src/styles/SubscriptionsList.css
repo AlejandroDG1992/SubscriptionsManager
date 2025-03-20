@@ -16,6 +16,7 @@
 
 /* Estilo individual de las cards */
 .card {
+    position: relative; /* Esto es necesario para el posicionamiento absoluto de .tag */
     background-color: #2c2f38;
     color: #f5f5f5;
     padding: 20px;
@@ -32,6 +33,7 @@
     font-size: 1.2em;
     margin-bottom: 10px;
     color: #e0e0e0;
+    z-index: 20;
 }
 
 .card p {
@@ -43,6 +45,20 @@
 .card strong {
     color: #ffffff;
 }
+
+/* Estilo para la etiqueta */
+.tag {
+    font-size: 8px; /* Tamaño pequeño */
+    color: #f5f5f5; /* Color de la etiqueta */
+    position: absolute; /* Posicionamiento absoluto dentro de la tarjeta */
+    bottom: 10px; /* Ajusta la posición vertical */
+    right: 10px; /* Alineación a la derecha */
+    z-index: 10; /* Asegura que la etiqueta esté por encima de otros elementos */
+    padding: 5px 10px; /* Espaciado interno para la etiqueta */
+    border-radius: 12px; /* Bordes redondeados */
+    font-weight: bold; /* Hacer que la etiqueta se vea destacada */
+}
+
 
 /* Tarjeta para agregar suscripción */
 .add-card {

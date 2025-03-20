@@ -55,6 +55,7 @@
   left: 0;
   font-family: "Inter", sans-serif;
   font-size: 0.8rem;
+  z-index: 0001; /* Asegura que estÃ© sobre todo */
 }
 
 .footer-text {

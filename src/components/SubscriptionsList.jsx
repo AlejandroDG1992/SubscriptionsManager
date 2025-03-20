@@ -32,6 +32,7 @@ function SubscriptionsList({ subscriptions }) {
                   "es-ES"
                 )}
               </p>
+              <div className="tag">{subscription.tags?.name}</div>
             </div>
           ))}
         </div>

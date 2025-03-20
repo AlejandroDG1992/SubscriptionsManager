@@ -6,28 +6,38 @@ import AddSubscription from "../components/AddSubscription";
 
 function Home() {
   const navigate = useNavigate();
+  const [userId, setUserId] = useState();
   const [subscriptions, setSubscriptions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
 
+
+  // Comprobar si el usuario está autenticado
   useEffect(() => {
     const checkUser = async () => {
       const { data: user } = await supabase.auth.getUser();
       if (!user?.user) {
         navigate("/Login");
       } else {
-        fetchSubscriptions(user.user.id);
+        setUserId(user.user.id); // Se actualiza el userId cuando se obtiene el usuario
       }
     };
 
     checkUser();
   }, [navigate]);
 
+  // Fetch de suscripciones cuando el userId cambia
+  useEffect(() => {
+    if (userId) {
+      fetchSubscriptions(userId);
+    }
+  }, [userId]); // Se ejecuta cuando el userId cambia
+
   const fetchSubscriptions = async (userId) => {
     setLoading(true);
     const { data, error } = await supabase
       .from("subscriptions")
-      .select("*")
+      .select("*, tags(name) ")
       .eq("user_id", userId);
 
     if (error) {
@@ -66,8 +76,7 @@ function Home() {
           {isOpen ? "x" : "+"}
         </button>
       </div>
-
-      <AddSubscription isOpen={isOpen} toggle={toggleAddSubscriptionPanel} />
+      <AddSubscription userId={userId} isOpen={isOpen} toggle={toggleAddSubscriptionPanel} />
     </div>
   );
 }
