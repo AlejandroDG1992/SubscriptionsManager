@@ -24,10 +24,10 @@ function SubscriptionsList({ subscriptions }) {
           {formattedSubscriptions.map((subscription) => (
             <div key={subscription.id} className="card">
               <h3>{subscription.service}</h3>
-              <p><strong>Plan:</strong> {subscription.plan_name}</p>
+              <p><strong>Plan:</strong> {subscription.plan}</p>
               <p><strong>Precio:</strong> {subscription.price} €</p>
               <p><strong>Fecha de inicio:</strong> {subscription.dateInitFormatted}</p>
-              <p><strong>Próxima facturación:</strong> {subscription.dateBillingFormatted}</p>
+              <p><strong>Próxima fecha de facturación:</strong> {subscription.dateBillingFormatted}</p>
               
               {subscription.tags?.length > 0 && (
                 <div className="tags-container">
