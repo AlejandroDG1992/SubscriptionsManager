@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import SubscriptionsList from "./SubscriptionsList";
 import { supabase } from "../DB/supabaseClient";
 
@@ -6,35 +6,35 @@ const Subscriptions = ({ userId }) => {
   const [subscriptions, setSubscriptions] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchSubscriptions = async () => {
-      if (!userId) return;
+  const fetchSubscriptions = useCallback(async () => {
+    if (!userId) return;
 
-      setLoading(true);
+    setLoading(true);
+    try {
       const { data, error } = await supabase
         .from("subscriptions")
-        .select()
+        .select("*, tags(name)")
         .eq("user_id", userId);
 
-      if (error) {
-        console.error("Error al obtener suscripciones:", error);
-      } else {
-        setSubscriptions(data);
-      }
+      if (error) throw error;
+      setSubscriptions(data);
+    } catch (error) {
+      console.error("Error al obtener suscripciones:", error.message);
+    } finally {
       setLoading(false);
-    };
-
-    fetchSubscriptions();
+    }
   }, [userId]);
+
+  useEffect(() => {
+    fetchSubscriptions();
+  }, [fetchSubscriptions]);
+
+  const subscriptionsMemo = useMemo(() => subscriptions, [subscriptions]);
 
   return (
     <div>
       <h2>Mis Suscripciones</h2>
-      {loading ? (
-        <p>Cargando...</p>
-      ) : (
-        <SubscriptionsList subscriptions={subscriptions} />
-      )}
+      {loading ? <p>Cargando...</p> : <SubscriptionsList subscriptions={subscriptionsMemo} />}
     </div>
   );
 };

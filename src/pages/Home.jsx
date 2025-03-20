@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router";
 import SubscriptionsList from "../components/SubscriptionsList";
 import { supabase } from "../DB/supabaseClient";
@@ -6,48 +6,54 @@ import AddSubscription from "../components/AddSubscription";
 
 function Home() {
   const navigate = useNavigate();
-  const [userId, setUserId] = useState();
+  const [userId, setUserId] = useState(null);
   const [subscriptions, setSubscriptions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const checkUser = async () => {
-      const { data: user } = await supabase.auth.getUser();
-      if (!user?.user) {
-        navigate("/Login");
-      } else {
-        setUserId(user.user.id);
+      try {
+        const { data: user, error } = await supabase.auth.getUser();
+        if (error) throw error;
+        if (!user?.user) {
+          navigate("/Login");
+        } else {
+          setUserId(user.user.id);
+        }
+      } catch (error) {
+        console.error("Error al obtener usuario:", error.message);
       }
     };
 
     checkUser();
   }, [navigate]);
 
+  const fetchSubscriptions = useCallback(async () => {
+    if (!userId) return;
+    setLoading(true);
+    
+    try {
+      const { data, error } = await supabase
+        .from("subscriptions")
+        .select("*, tags(name)")
+        .eq("user_id", userId);
 
-  useEffect(() => {
-    if (userId) {
-      fetchSubscriptions(userId);
+      if (error) throw error;
+      setSubscriptions(data);
+    } catch (error) {
+      console.error("Error obteniendo suscripciones:", error.message);
+    } finally {
+      setLoading(false);
     }
   }, [userId]);
 
-  const fetchSubscriptions = async (userId) => {
-    setLoading(true);
-    const { data, error } = await supabase
-      .from("subscriptions")
-      .select("*, tags(name) ")
-      .eq("user_id", userId);
-
-    if (error) {
-      console.error("Error obteniendo suscripciones:", error.message);
-    } else {
-      setSubscriptions(data);
-    }
-    setLoading(false);
-  };
+  useEffect(() => {
+    fetchSubscriptions();
+  }, [fetchSubscriptions]);
 
   const toggleAddSubscriptionPanel = () => {
-    setIsOpen(!isOpen);
+    setIsOpen((prev) => !prev);
   };
 
   return (
@@ -60,7 +66,10 @@ function Home() {
       <br />
       <button
         className="logout-btn"
-        onClick={async () => await supabase.auth.signOut()}
+        onClick={async () => {
+          await supabase.auth.signOut();
+          navigate("/Login");
+        }}
       >
         Logout
       </button>

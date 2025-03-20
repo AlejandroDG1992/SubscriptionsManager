@@ -6,7 +6,6 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import SignUp from "./pages/SignUp";
 import { supabase } from "./DB/supabaseClient";
-import GradientBackground from "./components/GradientBackground";
 import headerImage from "./assets/SubscriptionsManagerLogo.png";
 import footerImage from "./assets/LinkedinLogo.jpg";
 
@@ -17,24 +16,21 @@ function App() {
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
-        if (!session) {
-          if (location.pathname !== "/SignUp") {
-            navigate("/Login");
-          }
-        } else {
+        if (!session && location.pathname !== "/SignUp") {
+          navigate("/Login");
+        } else if (session) {
           navigate("/");
         }
       }
     );
 
     return () => {
-      authListener.subscription.unsubscribe();
+      authListener?.subscription?.unsubscribe();
     };
-  }, [navigate, location.pathname]);
+  }, []); // Sin dependencias innecesarias
 
   return (
     <div>
-      {/* <GradientBackground /> */}
       <header className="header">
         <img src={headerImage} alt="Header" className="header-image" />
       </header>
@@ -54,6 +50,7 @@ function App() {
           <a
             href="https://www.linkedin.com/in/alejandro-delgado-931287ab/"
             target="_blank"
+            rel="noopener noreferrer"
           >
             <img src={footerImage} alt="Footer" className="footer-image" />
           </a>
