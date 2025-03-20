@@ -11,27 +11,25 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
 
-
-  // Comprobar si el usuario está autenticado
   useEffect(() => {
     const checkUser = async () => {
       const { data: user } = await supabase.auth.getUser();
       if (!user?.user) {
         navigate("/Login");
       } else {
-        setUserId(user.user.id); // Se actualiza el userId cuando se obtiene el usuario
+        setUserId(user.user.id);
       }
     };
 
     checkUser();
   }, [navigate]);
 
-  // Fetch de suscripciones cuando el userId cambia
+
   useEffect(() => {
     if (userId) {
       fetchSubscriptions(userId);
     }
-  }, [userId]); // Se ejecuta cuando el userId cambia
+  }, [userId]);
 
   const fetchSubscriptions = async (userId) => {
     setLoading(true);
@@ -67,7 +65,6 @@ function Home() {
         Logout
       </button>
 
-      {/* Contenedor de los botones flotantes */}
       <div className="floating-buttons">
         <button
           className={`add-subscription-btn ${isOpen ? "open" : ""}`}
@@ -76,7 +73,12 @@ function Home() {
           {isOpen ? "x" : "+"}
         </button>
       </div>
-      <AddSubscription userId={userId} isOpen={isOpen} toggle={toggleAddSubscriptionPanel} />
+      <AddSubscription
+        userId={userId}
+        isOpen={isOpen}
+        toggle={toggleAddSubscriptionPanel}
+        fetchSubscriptions={fetchSubscriptions}
+      />
     </div>
   );
 }

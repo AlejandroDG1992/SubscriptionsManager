@@ -39,8 +39,7 @@ function SubscriptionsList({ subscriptions }) {
       ) : (
         <p>No hay suscripciones registradas.</p>
       )}
-
-      {/* Panel lateral para agregar suscripción */}
+      
       {isPanelOpen && <AddSubscription closePanel={closePanel} />}
     </div>
   );

@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { supabase } from "../DB/supabaseClient";
 
 const AddSubscription = ({ isOpen }) => {
+  const [tagsCollection, setTagsCollection] = useState([]);
+
   const [formData, setFormData] = useState({
     service: "",
     plan: "",
@@ -11,7 +13,22 @@ const AddSubscription = ({ isOpen }) => {
     date_billing: "",
     status: "active",
     url: "",
+    tag_id: ""
   });
+
+  useEffect(() => {
+    fetchTags();
+  }, []);
+
+  const fetchTags = async () => {
+    const { data, error } = await supabase.from("tags").select("*");
+
+    if (error) {
+      console.error("Error obteniendo los tags:", error.message);
+    } else {
+      setTagsCollection(data);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,11 +38,9 @@ const AddSubscription = ({ isOpen }) => {
     });
   };
 
-  // Maneja el evento cuando se da clic en el botón Guardar
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Aquí recogemos los datos y los preparamos para insertarlos
     const {
       service,
       plan,
@@ -35,33 +50,45 @@ const AddSubscription = ({ isOpen }) => {
       date_billing,
       status,
       url,
+      tag_id,
     } = formData;
 
-    const { data: user } = await supabase.auth.getUser();
-    if (user?.user) {
-      // Llamamos a Supabase para insertar la nueva suscripción
-      const { data, error } = await supabase.from("subscriptions").insert([
-        {
-          service,
-          plan_name: plan,
-          price,
-          date_init,
-          date_end,
-          date_billing,
-          status,
-          url,
-          user_id: user.user.id
-        },
-      ]);
+      const finalService = service || null;
+      const finalPlan = plan || null;
+      const finalPrice = price || null;
+      const finalDateInit = date_init || null;
+      const finalDateEnd = date_end || null;
+      const finalDateBilling = date_billing || null;
+      const finalStatus = status || "active";
+      const finalUrl = url || null;
+      const finalTagId = tag_id || null;
+  
+      console.log("Tag id: " + finalTagId);
+  
+      const { data: user } = await supabase.auth.getUser();
+      if (user?.user) {
+        const { data, error } = await supabase.from("subscriptions").insert([
+          {
+            service: finalService,
+            plan_name: finalPlan,
+            price: finalPrice,
+            date_init: finalDateInit,
+            date_end: finalDateEnd,
+            date_billing: finalDateBilling,
+            status: finalStatus,
+            url: finalUrl,
+            tag_id: finalTagId,
+            user_id: user.user.id,
+          },
+        ]);
 
-      console.log("UserId: " + user.userid)
+      console.log("UserId: " + user.user.id);
 
       if (error) {
         console.error("Error al insertar la suscripción:", error);
       } else {
         console.log("Suscripción insertada:", data);
       }
-      isOpen = "";
     }
   };
 
@@ -136,6 +163,16 @@ const AddSubscription = ({ isOpen }) => {
           placeholder="URL de servicio"
           onChange={handleChange}
         />
+
+        <label>Tipo de suscripción</label>
+        <select name="tag_id" value={formData.tag_id} onChange={handleChange}>
+        <option value=""></option>
+          {tagsCollection.map((option) => (
+            <option key={option.id} value={option.id}>
+              {option.name}
+            </option>
+          ))}
+        </select>
 
         <button type="submit">Guardar</button>
       </form>

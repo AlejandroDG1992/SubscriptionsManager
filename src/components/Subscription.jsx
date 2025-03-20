@@ -8,7 +8,7 @@ const Subscriptions = ({ userId }) => {
 
   useEffect(() => {
     const fetchSubscriptions = async () => {
-      if (!userId) return; // Asegurar que userId está definido
+      if (!userId) return;
 
       setLoading(true);
       const { data, error } = await supabase
@@ -25,7 +25,7 @@ const Subscriptions = ({ userId }) => {
     };
 
     fetchSubscriptions();
-  }, [userId]); // Se ejecuta cuando userId cambia
+  }, [userId]);
 
   return (
     <div>
