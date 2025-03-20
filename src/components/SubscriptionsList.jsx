@@ -27,15 +27,8 @@ function SubscriptionsList({ subscriptions }) {
               <p><strong>Plan:</strong> {subscription.plan}</p>
               <p><strong>Precio:</strong> {subscription.price} €</p>
               <p><strong>Fecha de inicio:</strong> {subscription.dateInitFormatted}</p>
-              <p><strong>Próxima fecha de facturación:</strong> {subscription.dateBillingFormatted}</p>
-              
-              {subscription.tags?.length > 0 && (
-                <div className="tags-container">
-                  {subscription.tags.map((tag, index) => (
-                    <span key={index} className="tag">{tag.name}</span>
-                  ))}
-                </div>
-              )}
+              <p><strong>Próxima fecha de facturación:</strong> {subscription.dateBillingFormatted}</p>              
+              <div className="tag">{subscription.tags?.name}</div>
             </div>
           ))}
         </div>
