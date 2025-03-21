@@ -27,14 +27,14 @@ function App() {
     return () => {
       authListener?.subscription?.unsubscribe();
     };
-  }, []); // Sin dependencias innecesarias
+  }, []);
 
   return (
     <div>
       <header className="header">
         <img src={headerImage} alt="Header" className="header-image" />
       </header>
-      <div className="background">
+      <div>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Login" element={<Login />} />
@@ -45,14 +45,14 @@ function App() {
       <footer className="footer">
         <div className="footer-logo">
           <span className="footer-text">
-            In development by Alejandro Delgado&ensp;
+            In development by Alejandro Delgado
           </span>
           <a
             href="https://www.linkedin.com/in/alejandro-delgado-931287ab/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img src={footerImage} alt="Footer" className="footer-image" />
+            <img src={footerImage} alt="Footer" className="footer-logo" />
           </a>
         </div>
       </footer>

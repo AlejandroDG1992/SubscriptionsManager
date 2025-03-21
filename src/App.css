@@ -1,117 +1,108 @@
-#root {
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-/* .halo {
-  position: fixed; /* Siempre sobre la pantalla */
-  width: 80px; /* Halo mÃ¡s pequeÃ±o */
-  height: 80px; /* Halo mÃ¡s pequeÃ±o */
-  background: rgba(255, 0, 0, 0.1); /* Color inicial del halo con baja opacidad */
-  border-radius: 50%;
-  filter: blur(20px); /* Difuminado mÃ¡s sutil */
-  pointer-events: none; /* No bloquea interacciones */
-  transition: transform 0.2s ease-out, opacity 0.5s ease-in-out, background 0.3s ease-in-out;
-  transform: translate(-50%, -50%);
-  opacity: 0.8; /* Baja opacidad */
-  z-index: 9999; /* Asegura que estÃ© sobre todo */
-}  */
-
-.background {
-  position:initial;
-  width: 100%;
-  height: 100%;
-  background: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 1s ease;
-} */
-
-.header {
-  width: 100%;
-  height: 150px; /* Ajusta la altura según prefieras */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.header-image {
-  width: 70%;
-  height: 50%;
-  object-fit:fill; /* Ajusta la imagen para que se vea bien */
-}
-
-.footer {
-  width: 100%;
-  padding: 0.8rem 1.5rem;
-  color: #ccc;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  font-family: "Inter", sans-serif;
-  font-size: 0.8rem;
-  z-index: 0001; /* Asegura que estÃ© sobre todo */
-}
-
-.footer-text {
-  font-weight: 300;
-}
-
-.footer-logo img {
-  width: 18px;
-  height: 18px;
-  transition: transform 0.2s ease-in-out;
-  opacity: 0.7; 
-}
-
-.footer-logo a:hover img {
-  transform: scale(1.4);
-  opacity: 1; 
-}
-
-
-.table-container {
-  width: 100%;
-  overflow-x: auto;
-}
-
-.styled-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0;
-  font-size: 1rem;
-  min-width: 400px;
-  border-radius: 10px 10px 0 0;
-  overflow: hidden;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.styled-table thead tr {
-  text-align: left;
-  font-weight: bold;
-}
-
-.styled-table th, .styled-table td {
-  padding: 12px 15px;
-  border: 1px solid #ddd;
-}
-
-.styled-table tbody tr:hover {
-}
-
-@media (hover: none) {
-  .halo {
-    display: none;
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #141313;
   }
+  
+  .header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header-image {
+    max-width: 200px;
+    height: auto;
+  }
+  
+  footer {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 10px;
+  }
+  
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .footer-text {
+    font-size: 14px;
+    color: #dfdbdb;
+  }
+  
+  .footer-logo img {
+    width: 30px;
+    height: auto;
+  }
+
+  
+
+  .login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    background-color: #141313;
+    color: #dfdbdb;
+    padding: 20px;
 }
 
-@media (max-width: 768px) {
-  .table-container {
-    overflow-x: auto;
-  }
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #1f1e1e;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+}
+
+
+button {
+    background-color: #ff8c00;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background-color:  #555;;
+}
+
+button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+}
+
+p {
+    margin-top: 15px;
+    text-align: center;
+}
+
+p a {
+    color: #ff8c00;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+p a:hover {
+    text-decoration: underline;
 }

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../DB/supabaseClient";
 import { Link, useNavigate } from "react-router";
+import { Button, ButtonGroup } from "@heroui/button";
+import { Input } from "@heroui/input";
 import "../App.css";
 
 function Login() {
@@ -39,32 +41,38 @@ function Login() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          name="email"
+        <Input
+          isClearable
+          variant="bordered"
+          className="max-w-xs"
+          label="Email"
           placeholder="youremail@site.com"
+          type="email"
           value={email}
+          name="email"
+          isRequired
           onChange={(e) => setEmail(e.target.value)}
-          required
+          onClear={() => console.log("input cleared")}
         />
         <br />
         <br />
-        <input
+
+        <Input
+          className="max-w-xs"
+          label="Password"
+          placeholder="Enter your password"
           type="password"
-          name="password"
-          placeholder="password"
-          value={password}
+          variant="bordered"
           onChange={(e) => setPassword(e.target.value)}
-          required
         />
         {errorMessage && (
           <p style={{ color: "red", marginTop: "10px" }}>{errorMessage}</p>
         )}
         <br />
         <br />
-        <button type="submit" disabled={loading}>
+        <Button type="submit" disabled={loading}>
           {loading ? "Logging in..." : "Login"}
-        </button>
+        </Button>
       </form>
       <br />
       <p>
