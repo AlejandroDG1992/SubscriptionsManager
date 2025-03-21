@@ -20,13 +20,13 @@
     background-color: #2c2f38;
     color: #f5f5f5;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 30px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease;
 }
 
 .card:hover {
-    transform: translateY(-10px);
+    background-color: #5f6679;;
 }
 
 .card h3 {
@@ -118,34 +118,9 @@
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.add-subscription-btn:hover {
-    background-color: #45a049;
-}
-
 /* Cuando el panel está abierto, cambia el icono a ✔️ */
 .add-subscription-btn.open {
-    background-color: #002be7;
-}
-
-/* Botón de cerrar */
-.close-subscription-btn {
-    background-color: #ff4c4c;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.close-subscription-btn:hover {
-    background-color: #d43f3f;
+    background-color: red;
 }
 
 /* 🔹 Panel lateral de nueva suscripción */
@@ -157,9 +132,9 @@
     color: #f5f5f5;
     width: 400px;
     height: 100vh;
-    padding: 30px;
+    padding: 20px;
     box-shadow: -4px 0 12px rgba(0, 0, 0, 0.3);
-    transition: right 0.3s ease-in-out;
+    transition: right 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
     z-index: 1000;
     display: flex;
     flex-direction: column;
@@ -184,20 +159,15 @@
 .add-subscription-form textarea {
     background-color: #3a3f48;
     color: #f5f5f5;
-    border: 1px solid #555;
-    border-radius: 8px;
+    border: 2px solid #555;
+    border-radius: 30px;
     padding: 12px;
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     font-size: 1em;
+    position:static;
 }
 
-.add-subscription-form input:focus,
-.add-subscription-form select:focus,
-.add-subscription-form textarea:focus {
-    border-color: #4CAF50;
-    outline: none;
-}
 
 .add-subscription-form button {
     background-color: #4CAF50;
@@ -229,7 +199,7 @@
         width: 100%; /* Ocupa todo el ancho en móviles */
         height: 100%;
         right: -100%;
-    }
+        }
 
     /* Ajustar los botones flotantes en móviles */
     .floating-buttons {
