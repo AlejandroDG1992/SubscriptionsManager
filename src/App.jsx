@@ -27,7 +27,7 @@ function App() {
     return () => {
       authListener?.subscription?.unsubscribe();
     };
-  }, []); // Sin dependencias innecesarias
+  }, []);
 
   return (
     <div>

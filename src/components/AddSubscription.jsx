@@ -1,104 +1,112 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { supabase } from "../DB/supabaseClient";
 
-const AddSubscription = ({ isOpen }) => {
+const AddSubscription = ({ isOpen}) => { // Recibir onClose correctamente
+
   const [tagsCollection, setTagsCollection] = useState([]);
+  const [isLoadingTags, setIsLoadingTags] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [formData, setFormData] = useState({
-    service: "",
-    plan: "",
-    price: "",
-    date_init: "",
-    date_end: "",
-    date_billing: "",
+    service: null,
+    plan: null,
+    price: null,
+    date_init: null,
+    date_end: null,
+    date_billing: null,
     status: "active",
-    url: "",
-    tag_id: "",
+    url: null,
+    tag_id: null,
   });
 
   const fetchTags = useCallback(async () => {
+    setIsLoadingTags(true);
     try {
       const { data, error } = await supabase.from("tags").select("*");
       if (error) throw error;
       setTagsCollection(data);
     } catch (error) {
       console.error("Error obteniendo los tags:", error.message);
+    } finally {
+      setIsLoadingTags(false);
     }
   }, []);
 
   useEffect(() => {
-    fetchTags();
-  }, [fetchTags]);
+    if (tagsCollection.length === 0) fetchTags();
+  }, [fetchTags, tagsCollection.length]);
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value || null
+      [name]: value || null,
     }));
-  };
+  }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
   
-    const {
-      service,
-      plan,
-      price,
-      date_init,
-      date_end,
-      date_billing,
-      status,
-      url,
-      tag_id,
-    } = formData;
+    // if (!formData.service || !formData.price || !formData.date_init) {
+    //   alert("Por favor, completa los campos obligatorios.");
+    //   return;
+    // }
   
-    const { data: user } = await supabase.auth.getUser();
-    if (user?.user) {
-      const { data, error } = await supabase.from("subscriptions").insert([
-        {
-          service: service || null,
-          plan: plan || null,
-          price: price || null,
-          date_init: date_init || null,
-          date_end: date_end || null,
-          date_billing: date_billing || null,
-          status: status || "active",
-          url: url || null,
-          tag_id: tag_id || null,
-          user_id: user.user.id,
-        },
-      ]);
+    setIsSubmitting(true);
   
-      if (error) {
-        console.error("Error al insertar la suscripción:", error);
-      } else {
-        console.log("Suscripción insertada:", data);
+    try {
+      const { data: user } = await supabase.auth.getUser();
+      if (user?.user) {
+        const { error } = await supabase.from("subscriptions").insert([
+          {
+            ...formData,
+            user_id: user.user.id,
+          },
+        ]);
+  
+        if (error) throw error;
+        alert("Suscripción añadida con éxito.");
+        setFormData({
+          service: null,
+          plan: null,
+          price: null,
+          date_init: null,
+          date_end: null,
+          date_billing: null,
+          status: "active",
+          url: null,
+          tag_id: null,
+        });
       }
+    } catch (error) {
+      console.error("Error al insertar la suscripción:", error);
+      alert("Hubo un error al agregar la suscripción.");
+    } finally {
+      setIsSubmitting(false);
     }
-  };
+  }, [formData]);
 
   return (
     <div className={`add-subscription-form ${isOpen ? "open" : ""}`}>
       <h2>Añadir nueva suscripción</h2>
-
       <form onSubmit={handleSubmit}>
-        <label>Servicio</label>
-        <input type="text" name="service" value={formData.service} placeholder="Nombre del servicio" onChange={handleChange} />
+        <label>Servicio*</label>
+        <input type="text" name="service" value={formData.service || ""} onChange={handleChange} required />
 
         <label>Plan</label>
-        <input type="text" name="plan" value={formData.plan} placeholder="Nombre del plan" onChange={handleChange} />
+        <input type="text" name="plan" value={formData.plan || ""} onChange={handleChange} />
 
-        <label>Precio</label>
-        <input type="number" name="price" value={formData.price} placeholder="Precio" onChange={handleChange} />
+        <label>Precio (€)*</label>
+        <input type="number" name="price" value={formData.price || ""} onChange={handleChange} required />
 
-        <label>Fecha de inicio</label>
-        <input type="date" name="date_init" value={formData.date_init} onChange={handleChange} />
+        <label>Fecha de inicio*</label>
+        <input type="date" name="date_init" value={formData.date_init || ""} onChange={handleChange} required />
 
         <label>Fecha de finalización</label>
-        <input type="date" name="date_end" value={formData.date_end} onChange={handleChange} />
+        <input type="date" name="date_end" value={formData.date_end || ""} onChange={handleChange} />
 
         <label>Fecha de facturación</label>
-        <input type="date" name="date_billing" value={formData.date_billing} onChange={handleChange} />
+        <input type="date" name="date_billing" value={formData.date_billing || ""} onChange={handleChange} />
 
         <label>Estado</label>
         <select name="status" value={formData.status} onChange={handleChange}>
@@ -108,19 +116,25 @@ const AddSubscription = ({ isOpen }) => {
         </select>
 
         <label>URL</label>
-        <input type="url" name="url" value={formData.url} placeholder="URL de servicio" onChange={handleChange} />
+        <input type="url" name="url" value={formData.url || ""} onChange={handleChange} />
 
         <label>Tipo de suscripción</label>
-        <select name="tag_id" value={formData.tag_id} onChange={handleChange}>
-          <option value="">Selecciona una categoría</option>
-          {tagsCollection.map((tag) => (
-            <option key={tag.id} value={tag.id}>
-              {tag.name}
-            </option>
-          ))}
-        </select>
+        {isLoadingTags ? (
+          <p>Cargando categorías...</p>
+        ) : (
+          <select name="tag_id" value={formData.tag_id || ""} onChange={handleChange}>
+            <option value="">Selecciona una categoría</option>
+            {tagsCollection.map((tag) => (
+              <option key={tag.id} value={tag.id}>
+                {tag.name}
+              </option>
+            ))}
+          </select>
+        )}
 
-        <button type="submit">Guardar</button>
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Guardando..." : "Guardar"}
+        </button>
       </form>
     </div>
   );
