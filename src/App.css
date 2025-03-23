@@ -4,19 +4,7 @@
   text-align: center;
 }
 
-/* .halo {
-  position: fixed; /* Siempre sobre la pantalla */
-  width: 80px; /* Halo mÃ¡s pequeÃ±o */
-  height: 80px; /* Halo mÃ¡s pequeÃ±o */
-  background: rgba(255, 0, 0, 0.1); /* Color inicial del halo con baja opacidad */
-  border-radius: 50%;
-  filter: blur(20px); /* Difuminado mÃ¡s sutil */
-  pointer-events: none; /* No bloquea interacciones */
-  transition: transform 0.2s ease-out, opacity 0.5s ease-in-out, background 0.3s ease-in-out;
-  transform: translate(-50%, -50%);
-  opacity: 0.8; /* Baja opacidad */
-  z-index: 9999; /* Asegura que estÃ© sobre todo */
-}  */
+
 
 .background {
   position:initial;
@@ -27,7 +15,7 @@
   align-items: center;
   justify-content: center;
   transition: background 1s ease;
-} */
+} 
 
 .header {
   width: 100%;
@@ -101,8 +89,6 @@
   border: 1px solid #ddd;
 }
 
-.styled-table tbody tr:hover {
-}
 
 @media (hover: none) {
   .halo {
