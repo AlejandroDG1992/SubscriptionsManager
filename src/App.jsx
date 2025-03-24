@@ -8,6 +8,7 @@ import SignUp from "./pages/SignUp";
 import { supabase } from "./DB/supabaseClient";
 import headerImage from "./assets/SubscriptionsManagerLogo.png";
 import footerImage from "./assets/LinkedinLogo.jpg";
+import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ function App() {
         <img src={headerImage} alt="Header" className="header-image" />
       </header>
       <div className="background">
+        <Analytics />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Login" element={<Login />} />
