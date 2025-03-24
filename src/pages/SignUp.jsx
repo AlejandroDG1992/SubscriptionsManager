@@ -27,7 +27,10 @@ function SignUp() {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { name } },
+      options: { 
+        data: { name } ,
+        emailRedirectTo: 'https://subscriptions-manager-five.vercel.app/Login',
+      },
     });
     setLoading(false);
 
