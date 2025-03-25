@@ -1,4 +1,4 @@
-import { FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 const SubscriptionCard = ({
   subscription,
@@ -6,7 +6,7 @@ const SubscriptionCard = ({
   setHoveredCardId,
   openMenuId,
   setOpenMenuId,
-  deleteSubscription,
+  deleteSubscription
 }) => {
   return (
     <div
@@ -30,6 +30,9 @@ const SubscriptionCard = ({
 
       {openMenuId === subscription.id && hoveredCardId === subscription.id && (
         <div className="menu-dropdown active">
+          {/* <button onClick={() => onEditSubscription(subscription)}>
+            <FaEdit className="mr-2 text-red-500" />
+          </button> */}
           <button onClick={() => deleteSubscription(subscription.id)}>
             <FaTrash className="mr-2 text-red-500" />
           </button>

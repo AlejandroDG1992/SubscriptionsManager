@@ -28,8 +28,7 @@ function SignUp() {
       email,
       password,
       options: { 
-        data: { name } ,
-        emailRedirectTo: 'https://subscriptions-manager-five.vercel.app/Login',
+        data: { name }
       },
     });
     setLoading(false);

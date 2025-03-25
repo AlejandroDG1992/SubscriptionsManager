@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router";
 import SubscriptionsList from "../components/SubscriptionsList";
 import { supabase } from "../DB/supabaseClient";
 import AddSubscription from "../components/AddSubscription";
+import "../styles/Home.css";
 
 function Home() {
   const navigate = useNavigate();
@@ -10,7 +11,9 @@ function Home() {
   const [subscriptions, setSubscriptions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+  const [subscriptionToEdit, setSubscriptionToEdit] = useState(null); // Estado para manejar la suscripción a editar
 
+  // Verificar usuario
   useEffect(() => {
     const checkUser = async () => {
       try {
@@ -29,10 +32,11 @@ function Home() {
     checkUser();
   }, [navigate]);
 
+  // Obtener suscripciones desde la base de datos
   const fetchSubscriptions = useCallback(async () => {
     if (!userId) return;
     setLoading(true);
-    
+
     try {
       const { data, error } = await supabase
         .from("subscriptions")
@@ -52,18 +56,27 @@ function Home() {
     fetchSubscriptions();
   }, [fetchSubscriptions]);
 
+  const handleAddSubscription = (newSubscription) => {
+    // Si es una nueva suscripción, agregamos al final de la lista
+    setSubscriptions((prevSubscriptions) => [
+      ...prevSubscriptions,
+      newSubscription,
+    ]);
+  };
+  
+  const handleDeleteSubscription = (id) => {
+    setSubscriptions((prevSubscriptions) =>
+      prevSubscriptions.filter((sub) => sub.id !== id)
+    );
+  };
+
+  // Función para alternar el panel de añadir suscripción
   const toggleAddSubscriptionPanel = () => {
-    setIsOpen((prev) => !prev);
+    setIsOpen((prev) => !prev); // Cambiar el estado de apertura/cierre
   };
 
   return (
     <div>
-      {loading ? (
-        <p>Cargando suscripciones...</p>
-      ) : (
-        <SubscriptionsList subscriptions={subscriptions} />
-      )}
-      <br />
       <button
         className="logout-btn"
         onClick={async () => {
@@ -74,6 +87,15 @@ function Home() {
         Logout
       </button>
 
+      {loading ? (
+        <p>Cargando suscripciones...</p>
+      ) : (
+        <SubscriptionsList
+          subscriptions={subscriptions}
+          onDeleteSubscription={handleDeleteSubscription}
+        />
+      )}
+
       <div className="floating-buttons">
         <button
           className={`add-subscription-btn ${isOpen ? "open" : ""}`}
@@ -82,11 +104,12 @@ function Home() {
           {isOpen ? "x" : "+"}
         </button>
       </div>
+
       <AddSubscription
         userId={userId}
         isOpen={isOpen}
         toggle={toggleAddSubscriptionPanel}
-        fetchSubscriptions={fetchSubscriptions}
+        onAddSubscription={handleAddSubscription}
       />
     </div>
   );
