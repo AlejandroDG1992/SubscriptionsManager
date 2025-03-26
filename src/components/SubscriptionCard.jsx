@@ -6,6 +6,7 @@ const SubscriptionCard = ({
   setHoveredCardId,
   openMenuId,
   setOpenMenuId,
+  onEditSubscription,
   deleteSubscription
 }) => {
   return (

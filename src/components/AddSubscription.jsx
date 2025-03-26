@@ -2,9 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { supabase } from "../DB/supabaseClient";
 
-const AddSubscription = ({ userId, isOpen, toggle, onAddSubscription }) => {
-  const [tagsCollection, setTagsCollection] = useState([]);
-  const [isLoadingTags, setIsLoadingTags] = useState(false);
+const AddSubscription = ({ userId, isOpen, toggle, onAddSubscription, onEditSubscription, tagsCollection }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -18,24 +16,6 @@ const AddSubscription = ({ userId, isOpen, toggle, onAddSubscription }) => {
     url: null,
     tag_id: null,
   });
-
-  // Función para obtener las tags desde Supabase
-  const fetchTags = useCallback(async () => {
-    setIsLoadingTags(true);
-    try {
-      const { data, error } = await supabase.from("tags").select("*");
-      if (error) throw error;
-      setTagsCollection(data);
-    } catch (error) {
-      console.error("Error obteniendo los tags:", error.message);
-    } finally {
-      setIsLoadingTags(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (tagsCollection.length === 0) fetchTags();
-  }, [fetchTags, tagsCollection.length]);
 
   // Función para manejar los cambios en los inputs
   const handleChange = useCallback((e) => {
@@ -52,8 +32,7 @@ const AddSubscription = ({ userId, isOpen, toggle, onAddSubscription }) => {
       setIsSubmitting(true);
 
       try {
-        const { data: user } = await supabase.auth.getUser();
-        if (user?.user) {
+        if (userId) {
           // Si la suscripción está siendo editada, usa su ID, si no, genera uno nuevo.
           const newSubscriptionData = {
             ...formData,
@@ -81,7 +60,7 @@ const AddSubscription = ({ userId, isOpen, toggle, onAddSubscription }) => {
 
           // Aquí pasas la suscripción con el UUID generado a tu estado de suscripciones
           onAddSubscription({
-            id: newSubscriptionData.id, // Usar el UUID generado
+            id: newSubscriptionData.id,
             ...formData,
           });
         }
@@ -167,10 +146,7 @@ const AddSubscription = ({ userId, isOpen, toggle, onAddSubscription }) => {
         />
 
         <label>Tipo de suscripción</label>
-        {isLoadingTags ? (
-          <p>Cargando categorías...</p>
-        ) : (
-          <select
+        <select
             name="tag_id"
             value={formData.tag_id || ""}
             onChange={handleChange}
@@ -182,7 +158,6 @@ const AddSubscription = ({ userId, isOpen, toggle, onAddSubscription }) => {
               </option>
             ))}
           </select>
-        )}
 
         <button type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Guardando..." : "Guardar"}

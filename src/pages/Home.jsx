@@ -11,6 +11,7 @@ function Home() {
   const [subscriptions, setSubscriptions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+  const [tagsCollection, setTagsCollection] = useState([]);
   const [subscriptionToEdit, setSubscriptionToEdit] = useState(null); // Estado para manejar la suscripción a editar
 
   // Verificar usuario
@@ -56,23 +57,44 @@ function Home() {
     fetchSubscriptions();
   }, [fetchSubscriptions]);
 
+  useEffect(() => {
+    fetchTags();
+  }, []);
+
+
+  // Función para obtener las tags desde Supabase
+  const fetchTags = useCallback(async () => {
+    try {
+      const { data, error } = await supabase.from("tags").select("*");
+      if (error) throw error;
+      setTagsCollection(data);
+    } catch (error) {
+      console.error("Error obteniendo los tags:", error.message);
+    }
+  }, []);
+
   const handleAddSubscription = (newSubscription) => {
-    // Si es una nueva suscripción, agregamos al final de la lista
     setSubscriptions((prevSubscriptions) => [
       ...prevSubscriptions,
       newSubscription,
     ]);
   };
   
+  const handleEditSubscription = (subscription) => {
+    // Establece los datos de la suscripción que se va a editar
+    setSubscriptionToEdit(subscription);
+    setIsOpen(true);  // Abre el panel de edición
+  };
+  
+
   const handleDeleteSubscription = (id) => {
     setSubscriptions((prevSubscriptions) =>
       prevSubscriptions.filter((sub) => sub.id !== id)
     );
   };
 
-  // Función para alternar el panel de añadir suscripción
   const toggleAddSubscriptionPanel = () => {
-    setIsOpen((prev) => !prev); // Cambiar el estado de apertura/cierre
+    setIsOpen((prev) => !prev);
   };
 
   return (
@@ -92,6 +114,7 @@ function Home() {
       ) : (
         <SubscriptionsList
           subscriptions={subscriptions}
+          onEditSubscription={handleEditSubscription}
           onDeleteSubscription={handleDeleteSubscription}
         />
       )}
@@ -110,6 +133,7 @@ function Home() {
         isOpen={isOpen}
         toggle={toggleAddSubscriptionPanel}
         onAddSubscription={handleAddSubscription}
+        tagsCollection={tagsCollection}
       />
     </div>
   );
