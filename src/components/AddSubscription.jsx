@@ -2,7 +2,15 @@ import React, { useEffect, useState, useCallback } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { supabase } from "../DB/supabaseClient";
 
-const AddSubscription = ({ userId, isOpen, toggle, onAddSubscription, onEditSubscription, tagsCollection }) => {
+const AddSubscription = ({
+  userId,
+  isOpen,
+  toggle,
+  onAddSubscription,
+  onEditSubscription,
+  billingFrequenciesCollection,
+  tagsCollection,
+}) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -11,6 +19,7 @@ const AddSubscription = ({ userId, isOpen, toggle, onAddSubscription, onEditSubs
     price: null,
     date_init: null,
     date_end: null,
+    billing_frequency_id: null,
     date_billing: null,
     status: "active",
     url: null,
@@ -37,7 +46,7 @@ const AddSubscription = ({ userId, isOpen, toggle, onAddSubscription, onEditSubs
           const newSubscriptionData = {
             ...formData,
             user_id: userId,
-            id: uuidv4()
+            id: uuidv4(),
           };
 
           const { error } = await supabase
@@ -52,6 +61,7 @@ const AddSubscription = ({ userId, isOpen, toggle, onAddSubscription, onEditSubs
             price: null,
             date_init: null,
             date_end: null,
+            billing_frequency_id: null,
             date_billing: null,
             status: "active",
             url: null,
@@ -122,6 +132,20 @@ const AddSubscription = ({ userId, isOpen, toggle, onAddSubscription, onEditSubs
           onChange={handleChange}
         />
 
+        <label>Frecuencia de facturación</label>
+        <select
+          name="billing_frequency_id"
+          value={formData.billing_frequency_id || ""}
+          onChange={handleChange}
+        >
+          <option value="">Selecciona una frecuencia</option>
+          {billingFrequenciesCollection.map((frequency) => (
+            <option key={frequency.id} value={frequency.id}>
+              {frequency.name}
+            </option>
+          ))}
+        </select>
+
         <label>Fecha de facturación</label>
         <input
           type="date"
@@ -144,20 +168,19 @@ const AddSubscription = ({ userId, isOpen, toggle, onAddSubscription, onEditSubs
           value={formData.url || ""}
           onChange={handleChange}
         />
-
         <label>Tipo de suscripción</label>
         <select
-            name="tag_id"
-            value={formData.tag_id || ""}
-            onChange={handleChange}
-          >
-            <option value="">Selecciona una categoría</option>
-            {tagsCollection.map((tag) => (
-              <option key={tag.id} value={tag.id}>
-                {tag.name}
-              </option>
-            ))}
-          </select>
+          name="tag_id"
+          value={formData.tag_id || ""}
+          onChange={handleChange}
+        >
+          <option value="">Selecciona una categoría</option>
+          {tagsCollection.map((tag) => (
+            <option key={tag.id} value={tag.id}>
+              {tag.name}
+            </option>
+          ))}
+        </select>
 
         <button type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Guardando..." : "Guardar"}

@@ -11,6 +11,7 @@ function Home() {
   const [subscriptions, setSubscriptions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+  const [billingFrequenciesCollection, setBillingFrequenciesCollection] = useState([]);
   const [tagsCollection, setTagsCollection] = useState([]);
   const [subscriptionToEdit, setSubscriptionToEdit] = useState(null); // Estado para manejar la suscripción a editar
 
@@ -58,9 +59,23 @@ function Home() {
   }, [fetchSubscriptions]);
 
   useEffect(() => {
+    fetchBillingFrequencies();
     fetchTags();
   }, []);
 
+
+  // Función para obtener las frecuencias de facturación desde Supabase
+  const fetchBillingFrequencies = useCallback(async () => {
+    try {
+      const { data, error } = await supabase
+        .from("billing_frequencies")
+        .select("*");
+      if (error) throw error;
+      setBillingFrequenciesCollection(data);
+    } catch (error) {
+      console.error("Error obteniendo las frecuencias de facturación:", error.message);
+    }
+  }, []);
 
   // Función para obtener las tags desde Supabase
   const fetchTags = useCallback(async () => {
@@ -133,6 +148,7 @@ function Home() {
         isOpen={isOpen}
         toggle={toggleAddSubscriptionPanel}
         onAddSubscription={handleAddSubscription}
+        billingFrequenciesCollection={billingFrequenciesCollection}
         tagsCollection={tagsCollection}
       />
     </div>
