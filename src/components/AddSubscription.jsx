@@ -86,9 +86,13 @@ const AddSubscription = ({
   );
 
   return (
-    <div className={`add-subscription-form ${isOpen ? "open" : ""}`}>
-      <h2>{"Añadir nueva suscripción"}</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="fixed inset-0 z-40 flex justify-center items-center">
+      <form
+        onSubmit={handleSubmit}
+        className="h-auto max-h-[80vh] w-[90%] bg-white dark:bg-gradient-to-r dark:from-slate-900 dark:to-slate-800 border-2 border-[#EAEBED] dark:border-gray-700 text-gray-900 dark:text-white rounded-3xl p-6 z-50 overflow-y-auto space-y-4"
+      >
+        <h2 className="text-xl font-bold mb-4">Añadir nueva suscripción</h2>
+  
         <label>Servicio*</label>
         <input
           type="text"
@@ -97,7 +101,7 @@ const AddSubscription = ({
           onChange={handleChange}
           required
         />
-
+  
         <label>Plan</label>
         <input
           type="text"
@@ -105,7 +109,7 @@ const AddSubscription = ({
           value={formData.plan || ""}
           onChange={handleChange}
         />
-
+  
         <label>Precio (€)*</label>
         <input
           type="number"
@@ -114,7 +118,7 @@ const AddSubscription = ({
           onChange={handleChange}
           required
         />
-
+  
         <label>Fecha de inicio*</label>
         <input
           type="date"
@@ -123,7 +127,7 @@ const AddSubscription = ({
           onChange={handleChange}
           required
         />
-
+  
         <label>Fecha de finalización</label>
         <input
           type="date"
@@ -131,7 +135,7 @@ const AddSubscription = ({
           value={formData.date_end || ""}
           onChange={handleChange}
         />
-
+  
         <label>Frecuencia de facturación</label>
         <select
           name="billing_frequency_id"
@@ -145,7 +149,7 @@ const AddSubscription = ({
             </option>
           ))}
         </select>
-
+  
         <label>Fecha de facturación</label>
         <input
           type="date"
@@ -153,14 +157,14 @@ const AddSubscription = ({
           value={formData.date_billing || ""}
           onChange={handleChange}
         />
-
+  
         <label>Estado</label>
         <select name="status" value={formData.status} onChange={handleChange}>
           <option value="active">Activo</option>
           <option value="cancel">Cancelado</option>
           <option value="pending">Pendiente</option>
         </select>
-
+  
         <label>URL</label>
         <input
           type="url"
@@ -168,6 +172,7 @@ const AddSubscription = ({
           value={formData.url || ""}
           onChange={handleChange}
         />
+  
         <label>Tipo de suscripción</label>
         <select
           name="tag_id"
@@ -181,13 +186,30 @@ const AddSubscription = ({
             </option>
           ))}
         </select>
-
-        <button type="submit" disabled={isSubmitting}>
+  
+        <div className="flex justify-end pt-4">
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-lg transition duration-200 disabled:opacity-50"
+        >
           {isSubmitting ? "Guardando..." : "Guardar"}
         </button>
+      </div>
+      <div >
+        <button
+          type="button"
+          disabled={isSubmitting}
+          className="font-medium px-5 py-2 bg-red-500 text-white rounded-lg hover:bg-red-700"
+          onClick={toggle}
+        >
+          {isSubmitting ? "Cerrando..." : "Cerrar"}
+        </button>
+      </div>
       </form>
     </div>
   );
+  
 };
 
 export default AddSubscription;

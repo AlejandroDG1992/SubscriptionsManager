@@ -31,11 +31,12 @@ function App() {
   }, []);
 
   return (
+    <>
     <div>
-      <header className="header">
-        <img src={headerImage} alt="Header" className="header-image" />
+      <header className="flex justify-center p-4 max-w-xl mx-auto mt-10">
+        <img src={headerImage} alt="Header"  className="object-fill"/>
       </header>
-      <div className="background">
+      <div>
         <Analytics />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -44,21 +45,22 @@ function App() {
           <Route path="/SignUp" element={<SignUp />} />
         </Routes>
       </div>
-      <footer className="footer">
+      <footer className="w-full flex justify-between items-center fixed bottom-0 left-0 text-xs">
         <div className="footer-logo">
           <span className="footer-text">
-            In development by Alejandro Delgado&ensp;
+            In development by Alejandro Delgado
           </span>
           <a
             href="https://www.linkedin.com/in/alejandro-delgado-931287ab/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img src={footerImage} alt="Footer" className="footer-image" />
+            <img src={footerImage} alt="Footer" className="footer-image"/>
           </a>
         </div>
       </footer>
     </div>
+    </>
   );
 }
 

@@ -9,10 +9,10 @@ function Menu(){
 
     return(
         <>
-        <button className="menu-buttons">
-            <FaHome className="mr-2 text-red-500"/>
+        <button >
+            <FaHome/>
         </button>
-        <button className="menu-buttons">
+        <button>
         <FaChartPie/>
         </button>
         </>

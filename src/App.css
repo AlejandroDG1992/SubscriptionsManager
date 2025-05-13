@@ -7,7 +7,7 @@
 .header-image {
   width: 70%;
   height: 50%;
-  object-fit:fill; /* Ajusta la imagen para que se vea bien */
+  object-fit:fill;
 }
 
 .footer {
