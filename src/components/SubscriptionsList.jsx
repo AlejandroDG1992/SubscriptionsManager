@@ -42,10 +42,11 @@ function SubscriptionsList({ subscriptions, onDeleteSubscription, onEditSubscrip
   };
 
   return (
-    <div className="padding-4">
-      <h2>Mis Suscripciones</h2>
+    <div className="container mx-auto ">
+      <h2 className="text-2xl text-gray dark:text-white">Mis Suscripciones</h2>
       {subscriptions.length > 0 ? (
-        <div className="grid mt-5 gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid mt-5 gap-4 grid-cols-1 sm:grid-cols- md:grid-cols-3 lg:grid-cols-4"
+        >
           {formattedSubscriptions.map((subscription) => (
             <SubscriptionCard
               key={subscription.id}

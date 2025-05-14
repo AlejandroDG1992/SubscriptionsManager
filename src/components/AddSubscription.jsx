@@ -26,7 +26,6 @@ const AddSubscription = ({
     tag_id: null,
   });
 
-  // Función para manejar los cambios en los inputs
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -42,7 +41,6 @@ const AddSubscription = ({
 
       try {
         if (userId) {
-          // Si la suscripción está siendo editada, usa su ID, si no, genera uno nuevo.
           const newSubscriptionData = {
             ...formData,
             user_id: userId,
@@ -68,7 +66,6 @@ const AddSubscription = ({
             tag_id: null,
           });
 
-          // Aquí pasas la suscripción con el UUID generado a tu estado de suscripciones
           onAddSubscription({
             id: newSubscriptionData.id,
             ...formData,
@@ -86,130 +83,163 @@ const AddSubscription = ({
   );
 
   return (
-    <div className="fixed inset-0 z-40 flex justify-center items-center">
-      <form
-        onSubmit={handleSubmit}
-        className="h-auto max-h-[80vh] w-[90%] bg-white dark:bg-gradient-to-r dark:from-slate-900 dark:to-slate-800 border-2 border-[#EAEBED] dark:border-gray-700 text-gray-900 dark:text-white rounded-3xl p-6 z-50 overflow-y-auto space-y-4"
-      >
-        <h2 className="text-xl font-bold mb-4">Añadir nueva suscripción</h2>
-  
-        <label>Servicio*</label>
-        <input
-          type="text"
-          name="service"
-          value={formData.service || ""}
-          onChange={handleChange}
-          required
-        />
-  
-        <label>Plan</label>
-        <input
-          type="text"
-          name="plan"
-          value={formData.plan || ""}
-          onChange={handleChange}
-        />
-  
-        <label>Precio (€)*</label>
-        <input
-          type="number"
-          name="price"
-          value={formData.price || ""}
-          onChange={handleChange}
-          required
-        />
-  
-        <label>Fecha de inicio*</label>
-        <input
-          type="date"
-          name="date_init"
-          value={formData.date_init || ""}
-          onChange={handleChange}
-          required
-        />
-  
-        <label>Fecha de finalización</label>
-        <input
-          type="date"
-          name="date_end"
-          value={formData.date_end || ""}
-          onChange={handleChange}
-        />
-  
-        <label>Frecuencia de facturación</label>
-        <select
-          name="billing_frequency_id"
-          value={formData.billing_frequency_id || ""}
-          onChange={handleChange}
-        >
-          <option value="">Selecciona una frecuencia</option>
-          {billingFrequenciesCollection.map((frequency) => (
-            <option key={frequency.id} value={frequency.id}>
-              {frequency.name}
-            </option>
-          ))}
-        </select>
-  
-        <label>Fecha de facturación</label>
-        <input
-          type="date"
-          name="date_billing"
-          value={formData.date_billing || ""}
-          onChange={handleChange}
-        />
-  
-        <label>Estado</label>
-        <select name="status" value={formData.status} onChange={handleChange}>
-          <option value="active">Activo</option>
-          <option value="cancel">Cancelado</option>
-          <option value="pending">Pendiente</option>
-        </select>
-  
-        <label>URL</label>
-        <input
-          type="url"
-          name="url"
-          value={formData.url || ""}
-          onChange={handleChange}
-        />
-  
-        <label>Tipo de suscripción</label>
-        <select
-          name="tag_id"
-          value={formData.tag_id || ""}
-          onChange={handleChange}
-        >
-          <option value="">Selecciona una categoría</option>
-          {tagsCollection.map((tag) => (
-            <option key={tag.id} value={tag.id}>
-              {tag.name}
-            </option>
-          ))}
-        </select>
-  
-        <div className="flex justify-end pt-4">
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-lg transition duration-200 disabled:opacity-50"
-        >
-          {isSubmitting ? "Guardando..." : "Guardar"}
-        </button>
-      </div>
-      <div >
-        <button
-          type="button"
-          disabled={isSubmitting}
-          className="font-medium px-5 py-2 bg-red-500 text-white rounded-lg hover:bg-red-700"
-          onClick={toggle}
-        >
-          {isSubmitting ? "Cerrando..." : "Cerrar"}
-        </button>
-      </div>
-      </form>
+<div className="fixed inset-0 z-40 flex justify-center items-center bg-[#F8FBFF] dark:bg-gradient-to-r from-slate-900 to-slate-800">
+  <form
+    onSubmit={handleSubmit}
+    className="w-full max-w-3xl bg-white dark:bg-gradient-to-r dark:from-slate-900 dark:to-slate-800 border-2 border-[#EAEBED] dark:border-gray-700 text-gray-900 dark:text-white rounded-3xl p-8 z-50 shadow-lg grid grid-cols-1 md:grid-cols-2 gap-6"
+  >
+    <h2 className="text-2xl font-semibold text-center mb-6 col-span-2">Añadir nueva suscripción</h2>
+
+    <div className="col-span-1">
+      <label className="block mb-2">Servicio*</label>
+      <input
+        type="text"
+        name="service"
+        value={formData.service || ""}
+        onChange={handleChange}
+        required
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
     </div>
+
+    <div className="col-span-1">
+      <label className="block mb-2">Plan</label>
+      <input
+        type="text"
+        name="plan"
+        value={formData.plan || ""}
+        onChange={handleChange}
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
+
+    <div className="col-span-1">
+      <label className="block mb-2">Precio (€)*</label>
+      <input
+        type="number"
+        name="price"
+        value={formData.price || ""}
+        onChange={handleChange}
+        required
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
+
+    <div className="col-span-1">
+      <label className="block mb-2">Estado</label>
+      <select
+        name="status"
+        value={formData.status}
+        onChange={handleChange}
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        <option value="active">Activo</option>
+        <option value="cancel">Cancelado</option>
+        <option value="pending">Pendiente</option>
+      </select>
+    </div>
+
+    <div className="col-span-1">
+      <label className="block mb-2">Fecha de inicio*</label>
+      <input
+        type="date"
+        name="date_init"
+        value={formData.date_init || ""}
+        onChange={handleChange}
+        required
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
+
+    <div className="col-span-1">
+      <label className="block mb-2">Fecha de finalización</label>
+      <input
+        type="date"
+        name="date_end"
+        value={formData.date_end || ""}
+        onChange={handleChange}
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
+
+    <div className="col-span-1">
+      <label className="block mb-2">Frecuencia de facturación</label>
+      <select
+        name="billing_frequency_id"
+        value={formData.billing_frequency_id || ""}
+        onChange={handleChange}
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        <option value="">Selecciona una frecuencia</option>
+        {billingFrequenciesCollection.map((frequency) => (
+          <option key={frequency.id} value={frequency.id}>
+            {frequency.name}
+          </option>
+        ))}
+      </select>
+    </div>
+
+    <div className="col-span-1">
+      <label className="block mb-2">Fecha de facturación</label>
+      <input
+        type="date"
+        name="date_billing"
+        value={formData.date_billing || ""}
+        onChange={handleChange}
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
+
+    <div className="col-span-1">
+      <label className="block mb-2">URL</label>
+      <input
+        type="url"
+        name="url"
+        value={formData.url || ""}
+        onChange={handleChange}
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
+
+    <div className="col-span-1">
+      <label className="block mb-2">Tipo de suscripción</label>
+      <select
+        name="tag_id"
+        value={formData.tag_id || ""}
+        onChange={handleChange}
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        <option value="">Selecciona una categoría</option>
+        {tagsCollection.map((tag) => (
+          <option key={tag.id} value={tag.id}>
+            {tag.name}
+          </option>
+        ))}
+      </select>
+    </div>
+
+    <div className="flex justify-between pt-4 space-x-4 col-span-2">
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-lg transition duration-200 disabled:opacity-50"
+      >
+        {isSubmitting ? "Guardando..." : "Guardar"}
+      </button>
+      <button
+        type="button"
+        disabled={isSubmitting}
+        className="font-medium px-5 py-2 bg-red-500 text-white rounded-lg hover:bg-red-700"
+        onClick={toggle}
+      >
+        {isSubmitting ? "Cerrando..." : "Cerrar"}
+      </button>
+    </div>
+  </form>
+</div>
+
+
   );
-  
 };
 
 export default AddSubscription;

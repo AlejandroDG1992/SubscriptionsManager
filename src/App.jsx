@@ -32,34 +32,35 @@ function App() {
 
   return (
     <>
-    <div>
-      <header className="flex justify-center p-4 max-w-xl mx-auto mt-10">
-        <img src={headerImage} alt="Header"  className="object-fill"/>
-      </header>
-      <div>
-        <Analytics />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="*" element={<NotFound />} />
-          <Route path="/SignUp" element={<SignUp />} />
-        </Routes>
-      </div>
-      <footer className="w-full flex justify-between items-center fixed bottom-0 left-0 text-xs">
-        <div className="footer-logo">
-          <span className="footer-text">
-            In development by Alejandro Delgado
-          </span>
-          <a
-            href="https://www.linkedin.com/in/alejandro-delgado-931287ab/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img src={footerImage} alt="Footer" className="footer-image"/>
-          </a>
+      <div className="flex flex-col min-h-screen"> {/* Flex container for sticky footer */}
+        <header className="flex justify-center p-4 max-w-xl mx-auto mt-10">
+          <img src={headerImage} alt="Header" className="object-fill" />
+        </header>
+        
+        <div className="flex-grow">
+          <Analytics />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/Login" element={<Login />} />
+            <Route path="*" element={<NotFound />} />
+            <Route path="/SignUp" element={<SignUp />} />
+          </Routes>
         </div>
-      </footer>
-    </div>
+        
+        <footer className="w-full px-4 py-2 text-xs text-black dark:text-white">
+          <div>
+            <span>In development by </span>
+            <a
+              href="https://portfolio-app-kohl-two.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-500 dark:hover:text-gray-400 transition-colors"
+            >
+              Alejandro Delgado
+            </a>
+          </div>
+        </footer>
+      </div>
     </>
   );
 }
