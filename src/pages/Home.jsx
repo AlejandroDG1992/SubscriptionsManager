@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import SubscriptionsList from "../components/SubscriptionsList";
 import { supabase } from "../DB/supabaseClient";
 import AddSubscription from "../components/AddSubscription";
-import "../styles/Home.css";
+// import "../styles/Home.css";
 
 function Home() {
   const navigate = useNavigate();
@@ -11,7 +11,8 @@ function Home() {
   const [subscriptions, setSubscriptions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
-  const [billingFrequenciesCollection, setBillingFrequenciesCollection] = useState([]);
+  const [billingFrequenciesCollection, setBillingFrequenciesCollection] =
+    useState([]);
   const [tagsCollection, setTagsCollection] = useState([]);
   const [subscriptionToEdit, setSubscriptionToEdit] = useState(null); // Estado para manejar la suscripción a editar
 
@@ -63,7 +64,6 @@ function Home() {
     fetchTags();
   }, []);
 
-
   // Función para obtener las frecuencias de facturación desde Supabase
   const fetchBillingFrequencies = useCallback(async () => {
     try {
@@ -73,7 +73,10 @@ function Home() {
       if (error) throw error;
       setBillingFrequenciesCollection(data);
     } catch (error) {
-      console.error("Error obteniendo las frecuencias de facturación:", error.message);
+      console.error(
+        "Error obteniendo las frecuencias de facturación:",
+        error.message
+      );
     }
   }, []);
 
@@ -94,13 +97,12 @@ function Home() {
       newSubscription,
     ]);
   };
-  
+
   const handleEditSubscription = (subscription) => {
     // Establece los datos de la suscripción que se va a editar
     setSubscriptionToEdit(subscription);
-    setIsOpen(true);  // Abre el panel de edición
+    setIsOpen(true); // Abre el panel de edición
   };
-  
 
   const handleDeleteSubscription = (id) => {
     setSubscriptions((prevSubscriptions) =>
@@ -115,7 +117,7 @@ function Home() {
   return (
     <div>
       <button
-        className="logout-btn"
+        className="fixed top-0 right-0 bg-red-500 text-white p-2 m-4 rounded-lg hover:bg-red-700"
         onClick={async () => {
           await supabase.auth.signOut();
           navigate("/Login");
@@ -134,23 +136,26 @@ function Home() {
         />
       )}
 
-      <div className="floating-buttons">
+      <div>
         <button
-          className={`add-subscription-btn ${isOpen ? "open" : ""}`}
+          className="fixed bottom-0 right-0 bg-blue-500 text-white p-2 m-4 rounded-lg hover:bg-blue-700"
           onClick={toggleAddSubscriptionPanel}
         >
-          {isOpen ? "x" : "+"}
+          {!isOpen && "Añadir Suscripción"}
         </button>
       </div>
-
-      <AddSubscription
-        userId={userId}
-        isOpen={isOpen}
-        toggle={toggleAddSubscriptionPanel}
-        onAddSubscription={handleAddSubscription}
-        billingFrequenciesCollection={billingFrequenciesCollection}
-        tagsCollection={tagsCollection}
-      />
+      <div>
+        {isOpen && (
+          <AddSubscription
+            userId={userId}
+            isOpen={isOpen}
+            toggle={toggleAddSubscriptionPanel}
+            onAddSubscription={handleAddSubscription}
+            billingFrequenciesCollection={billingFrequenciesCollection}
+            tagsCollection={tagsCollection}
+          />
+        )}
+      </div>
     </div>
   );
 }
